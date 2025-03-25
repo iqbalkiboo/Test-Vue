@@ -89,6 +89,16 @@ const requestFullscreen = () => {
   }
 };
 
+// Add this computed property in the script setup section
+const breadcrumbs = computed(() => {
+  const paths = route.path.split('/').filter(Boolean);
+  return paths.map((path, index) => ({
+    title: path.charAt(0).toUpperCase() + path.slice(1),
+    to: '/' + paths.slice(0, index + 1).join('/'),
+    active: index === paths.length - 1
+  }));
+});
+
 watch(menu, () => {
   setFormattedMenu(menu.value);
 });
@@ -400,13 +410,13 @@ window.onscroll = () => {
                 <Lucide icon="Search" class="w-[18px] h-[18px]" />
               </a>
             </div>
-            <!-- BEGIN: Breadcrumb -->
             <Breadcrumb light class="flex-1 hidden xl:block">
-              <Breadcrumb.Link to="/">App</Breadcrumb.Link>
-              <Breadcrumb.Link to="/">Dashboards</Breadcrumb.Link>
-              <Breadcrumb.Link to="/" :active="true">
-                Analytics
-              </Breadcrumb.Link>
+              <Breadcrumb.Link to="/">Home </Breadcrumb.Link>
+              <template v-for="(crumb, index) in breadcrumbs" :key="index">
+                <Breadcrumb.Link :to="crumb.to" :active="crumb.active">
+                  -{{ crumb.title }}
+                </Breadcrumb.Link>
+              </template>
             </Breadcrumb>
             <!-- END: Breadcrumb -->
             <!-- BEGIN: Search -->
