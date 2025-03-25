@@ -11,12 +11,26 @@ import { Tab } from "@/components/Base/Headless";
 import Table from "@/components/Base/Table";
 import _ from "lodash";
 import { useBerryStore } from '@/stores/useBerryStore';
+import { useRouter } from 'vue-router';
 
 const berryStore = useBerryStore();
+const router = useRouter();
 
 onMounted(() => {
   berryStore.fetchBerries();
 });
+
+// Fungsi untuk mendapatkan ID dari URL
+const getBerryIdFromUrl = (url: string) => {
+  const parts = url.split('/');
+  return parts[parts.length - 2]; // ID ada sebelum slash terakhir
+};
+
+// Navigasi ke halaman detail berdasarkan ID
+const goToDetail = (berryUrl: string) => {
+  const berryId = getBerryIdFromUrl(berryUrl);
+  router.push(`/${berryId}`);
+};
 
 </script>
 
@@ -97,10 +111,18 @@ onMounted(() => {
                       <Table.Td class="py-4 border-dashed dark:bg-darkmode-600">
                         {{ index + 1 }}
                       </Table.Td>
+                      <!-- <Table.Td class="py-4 border-dashed dark:bg-darkmode-600">
+                        <router-link 
+                          :to="{ name: 'data-detail', params: { title: berry.name, id: index }}" 
+                          class="font-medium whitespace-nowrap"
+                        >
+                          {{ berry.name }}
+                        </router-link>
+                      </Table.Td> -->
                       <Table.Td class="py-4 border-dashed dark:bg-darkmode-600">
                         <router-link 
-                          :to="{ name: 'data-detail', params: { title: berry.name, id: index + 1 }}" 
-                          class="font-medium whitespace-nowrap"
+                          :to="{ name: 'data-detail', params: { id: getBerryIdFromUrl(berry.url) }}" 
+                          class="font-medium whitespace-nowrap text-blue-500 hover:underline"
                         >
                           {{ berry.name }}
                         </router-link>

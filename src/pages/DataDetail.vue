@@ -8,7 +8,7 @@ const berryStore = useBerryStore();
 const berryId = Number(route.params.id);
 
 onMounted(() => {
-  berryStore.fetchBerryDetail(berryId + 1);
+  berryStore.fetchBerryDetail(berryId);
 });
 </script>
 
