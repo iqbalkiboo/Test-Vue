@@ -15,9 +15,7 @@ interface MenuProps
   as?: string | object;
 }
 
-const { as } = withDefaults(defineProps<MenuProps>(), {
-  as: "div",
-});
+const { as = "div" } = defineProps<MenuProps>();
 
 const attrs = useAttrs();
 const computedClass = computed(() =>
