@@ -410,6 +410,7 @@ window.onscroll = () => {
                 <Lucide icon="Search" class="w-[18px] h-[18px]" />
               </a>
             </div>
+            <!-- BEGIN: Breadcrumb -->
             <Breadcrumb light class="flex-1 hidden xl:block">
               <Breadcrumb.Link to="/">Home </Breadcrumb.Link>
               <template v-for="(crumb, index) in breadcrumbs" :key="index">
@@ -419,28 +420,6 @@ window.onscroll = () => {
               </template>
             </Breadcrumb>
             <!-- END: Breadcrumb -->
-            <!-- BEGIN: Search -->
-            <div
-              class="relative justify-center flex-1 hidden xl:flex"
-              @click="
-                () => {
-                  quickSearch = true;
-                }
-              "
-            >
-              <div
-                class="bg-white/[0.12] border-transparent border w-[350px] flex items-center py-2 px-3.5 rounded-[0.5rem] text-white/60 cursor-pointer hover:bg-white/[0.15] transition-colors duration-300 hover:duration-100"
-              >
-                <Lucide icon="Search" class="w-[18px] h-[18px]" />
-                <div class="ml-2.5 mr-auto">Quick search...</div>
-                <div>⌘K</div>
-              </div>
-            </div>
-            <QuickSearch
-              :quickSearch="quickSearch"
-              :setQuickSearch="setQuickSearch"
-            />
-            <!-- END: Search -->
             <!-- BEGIN: Notification & User Menu -->
             <div class="flex items-center flex-1">
               <div class="flex items-center gap-1 ml-auto">
