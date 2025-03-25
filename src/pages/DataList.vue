@@ -98,9 +98,12 @@ onMounted(() => {
                         {{ index + 1 }}
                       </Table.Td>
                       <Table.Td class="py-4 border-dashed dark:bg-darkmode-600">
-                        <a href="" class="font-medium whitespace-nowrap">
+                        <router-link 
+                          :to="{ name: 'data-detail', params: { title: berry.name, id: index + 1 }}" 
+                          class="font-medium whitespace-nowrap"
+                        >
                           {{ berry.name }}
-                        </a>
+                        </router-link>
                       </Table.Td>
                       <Table.Td
                         class="relative py-4 border-dashed dark:bg-darkmode-600"
@@ -131,157 +134,12 @@ onMounted(() => {
                       </Table.Td>
                     </Table.Tr>
                   </template>
-                  <!-- <template
-                    v-for="(faker, fakerKey) in _.take(
-                      departments.fakeDepartments(),
-                      10
-                    )"
-                    :key="fakerKey"
-                  >
-                    <Table.Tr class="[&_td]:last:border-b-0">
-                      <Table.Td class="py-4 border-dashed dark:bg-darkmode-600">
-                        <a href="" class="font-medium whitespace-nowrap">
-                          {{ faker.name }}
-                        </a>
-                        <div
-                          class="text-slate-500 text-xs whitespace-nowrap mt-0.5"
-                        >
-                          {{ faker.head }}
-                        </div>
-                      </Table.Td>
-                      <Table.Td class="py-4 border-dashed dark:bg-darkmode-600">
-                        <div class="whitespace-nowrap">
-                          <div class="flex items-center gap-2.5">
-                            <div
-                              class="w-[22px] h-[22px] overflow-hidden rounded-full border-2 image-fit zoom-in border-slate-200/70 box"
-                            >
-                              <Tippy
-                                as="img"
-                                alt="Tailwise - Admin Dashboard Template"
-                                :src="faker.location.image"
-                                :content="faker.location.name"
-                              />
-                            </div>
-                            <a href="">{{ faker.location.name }}</a>
-                          </div>
-                        </div>
-                      </Table.Td>
-                      <Table.Td class="py-4 border-dashed dark:bg-darkmode-600">
-                        <div class="whitespace-nowrap">
-                          {{ faker.employees }}
-                        </div>
-                      </Table.Td>
-                      <Table.Td class="py-4 border-dashed dark:bg-darkmode-600">
-                        <div class="whitespace-nowrap">
-                          <div class="flex items-center">
-                            <div>{{ faker.budget }}</div>
-                            <div
-                              :class="[
-                                'flex items-center text-xs ml-2',
-                                ['text-success', 'text-danger'][_.random(0, 1)],
-                              ]"
-                            >
-                              <span class="-mt-px">
-                                {{ _.random(1, 5) }}%
-                              </span>
-                              <Lucide
-                                icon="ChevronUp"
-                                class="w-4 h-4 ml-px -mr-1"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </Table.Td>
-                      <Table.Td class="py-4 border-dashed dark:bg-darkmode-600">
-                        <div class="flex items-center">
-                          <div class="flex items-center">
-                            <Lucide
-                              icon="Star"
-                              class="w-3.5 h-3.5 mr-1 text-pending fill-pending/30"
-                            />
-                            <Lucide
-                              icon="Star"
-                              class="w-3.5 h-3.5 mr-1 text-pending fill-pending/30"
-                            />
-                            <Lucide
-                              icon="Star"
-                              class="w-3.5 h-3.5 mr-1 text-pending fill-pending/30"
-                            />
-                            <Lucide
-                              icon="Star"
-                              class="w-3.5 h-3.5 mr-1 text-pending fill-pending/30"
-                            />
-                            <Lucide
-                              icon="Star"
-                              class="w-3.5 h-3.5 mr-1 text-slate-400 fill-slate/30"
-                            />
-                          </div>
-                          <div class="ml-1 text-xs text-slate-500">
-                            ({{ _.random(3, 4) }}.{{ _.random(1, 5) }}+)
-                          </div>
-                        </div>
-                      </Table.Td>
-                      <Table.Td
-                        class="relative py-4 border-dashed dark:bg-darkmode-600"
-                      >
-                        <div class="flex items-center justify-center">
-                          <Menu class="h-5">
-                            <Menu.Button class="w-5 h-5 text-slate-500">
-                              <Lucide
-                                icon="MoreVertical"
-                                class="w-5 h-5 stroke-slate-400/70 fill-slate-400/70"
-                              />
-                            </Menu.Button>
-                            <Menu.Items class="w-40">
-                              <Menu.Item>
-                                <Lucide
-                                  icon="CheckSquare"
-                                  class="w-4 h-4 mr-2"
-                                />
-                                Edit
-                              </Menu.Item>
-                              <Menu.Item class="text-danger">
-                                <Lucide icon="Trash2" class="w-4 h-4 mr-2" />
-                                Delete
-                              </Menu.Item>
-                            </Menu.Items>
-                          </Menu>
-                        </div>
-                      </Table.Td>
-                    </Table.Tr>
-                  </template> -->
                 </Table.Tbody>
               </Table>
             </div>
             <div
               class="flex flex-col-reverse flex-wrap items-center p-5 flex-reverse gap-y-2 sm:flex-row"
             >
-              <!-- <Pagination class="flex-1 w-full mr-auto sm:w-auto">
-                <Pagination.Link>
-                  <Lucide icon="ChevronsLeft" class="w-4 h-4" />
-                </Pagination.Link>
-                <Pagination.Link>
-                  <Lucide icon="ChevronLeft" class="w-4 h-4" />
-                </Pagination.Link>
-                <Pagination.Link>...</Pagination.Link>
-                <Pagination.Link>1</Pagination.Link>
-                <Pagination.Link active>2</Pagination.Link>
-                <Pagination.Link>3</Pagination.Link>
-                <Pagination.Link>...</Pagination.Link>
-                <Pagination.Link>
-                  <Lucide icon="ChevronRight" class="w-4 h-4" />
-                </Pagination.Link>
-                <Pagination.Link>
-                  <Lucide icon="ChevronsRight" class="w-4 h-4" />
-                </Pagination.Link>
-              </Pagination>
-              <FormSelect class="sm:w-20 rounded-[0.5rem]">
-                <option>10</option>
-                <option>25</option>
-                <option>35</option>
-                <option>50</option>
-              </FormSelect> -->
-              
               <div class="flex justify-between mr-auto">
                 <button 
                   @click="berryStore.prevPage"

@@ -20,7 +20,6 @@ import {
 import { watch, reactive, ref, computed, onMounted, provide } from "vue";
 import users from "@/fakers/users";
 import SimpleBar from "simplebar";
-import QuickSearch from "@/components/QuickSearch";
 import SwitchAccount from "@/components/SwitchAccount";
 import NotificationsPanel from "@/components/NotificationsPanel";
 import ActivitiesPanel from "@/components/ActivitiesPanel";
@@ -28,10 +27,6 @@ import ActivitiesPanel from "@/components/ActivitiesPanel";
 const compactMenu = useCompactMenuStore();
 const setCompactMenu = (val: boolean) => {
   compactMenu.setCompactMenu(val);
-};
-const quickSearch = ref(false);
-const setQuickSearch = (value: boolean) => {
-  quickSearch.value = value;
 };
 
 const switchAccount = ref(false);
@@ -91,6 +86,30 @@ const requestFullscreen = () => {
 
 // Add this computed property in the script setup section
 const breadcrumbs = computed(() => {
+  const currentMenu = formattedMenu.find((item): item is FormattedMenu => 
+    typeof item !== 'string' && item.active === true
+  );
+  
+  if (currentMenu) {
+    const items = [];
+    items.push({
+      title: currentMenu.title,
+      to: currentMenu.pathname || '#',
+      active: !route.params.id
+    });
+
+    if (route.params.id) {
+      items.push({
+        title: 'Detail',
+        to: route.path,
+        active: true
+      });
+    }
+
+    return items;
+  }
+
+  // Fallback to path-based breadcrumbs
   const paths = route.path.split('/').filter(Boolean);
   return paths.map((path, index) => ({
     title: path.charAt(0).toUpperCase() + path.slice(1),
@@ -384,32 +403,6 @@ window.onscroll = () => {
           <div
             class="container flex items-center w-full h-full transition-[padding,background-color,border-color] ease-in-out duration-300 box bg-transparent border-transparent shadow-none group-[.top-bar--active]:box group-[.top-bar--active]:px-5 group-[.top-bar--active]:bg-transparent group-[.top-bar--active]:border-transparent group-[.top-bar--active]:bg-gradient-to-r group-[.top-bar--active]:from-theme-1 group-[.top-bar--active]:to-theme-2"
           >
-            <div class="flex items-center gap-1 xl:hidden">
-              <a
-                href=""
-                @click="
-                  (event) => {
-                    event.preventDefault();
-                    activeMobileMenu = true;
-                  }
-                "
-                class="p-2 text-white rounded-full hover:bg-white/5"
-              >
-                <Lucide icon="AlignJustify" class="w-[18px] h-[18px]" />
-              </a>
-              <a
-                href=""
-                class="p-2 text-white rounded-full hover:bg-white/5"
-                @click="
-                  (event) => {
-                    event.preventDefault();
-                    quickSearch = true;
-                  }
-                "
-              >
-                <Lucide icon="Search" class="w-[18px] h-[18px]" />
-              </a>
-            </div>
             <!-- BEGIN: Breadcrumb -->
             <Breadcrumb light class="flex-1 hidden xl:block">
               <Breadcrumb.Link to="/">Home </Breadcrumb.Link>

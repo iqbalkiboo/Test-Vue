@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Layout from "@/themes";
+import DataList from "../pages/DataList.vue";
+import DataDetail from "../pages/DataDetail.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,7 +13,15 @@ const router = createRouter({
         {
           path: "/",
           name: "data-list",
-          component: () => import("../pages/DataList.vue"),
+          component: DataList,
+        },
+        {
+          path: "/:id",
+          name: "data-detail",
+          component: DataDetail,
+          meta: {
+            parent: "data-list"  // Changed from activeMenu to parent
+          },
         },
         {
           path: "/dashboard-overview-1",

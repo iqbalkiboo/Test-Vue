@@ -7,9 +7,25 @@ interface Berry {
   url: string;
 }
 
+interface BerryDetail {
+  name: string;
+  id: number;
+  size: number;
+  firmness: { name: string; url: string };
+  flavors: { flavor: { name: string; url: string }; potency: number }[];
+  growth_time: number;
+  max_harvest: number;
+  natural_gift_power: number;
+  natural_gift_type: { name: string; url: string };
+  smoothness: number;
+  soil_dryness: number;
+  item: { name: string; url: string };
+}
+
 export const useBerryStore = defineStore("berry", () => {
   const berries = ref<Berry[]>([]);
   const allBerries = ref<Berry[]>([]);
+  const berryDetail = ref<BerryDetail | null>(null);
   const loading = ref<boolean>(false);
   const error = ref<string | null>(null);
   const count = ref<number>(0);
@@ -37,7 +53,7 @@ export const useBerryStore = defineStore("berry", () => {
       limit.value = newLimit;
 
       if (allBerries.value.length === 0) {
-        fetchAllBerries(); // Fetch all data once when first fetching paginated data
+        fetchAllBerries();
       }
     } catch (err) {
       error.value = "Failed to fetch berries";
@@ -54,6 +70,19 @@ export const useBerryStore = defineStore("berry", () => {
       allBerries.value = response.data.results;
     } catch (err) {
       console.error("Failed to fetch all berries");
+    }
+  };
+
+  const fetchBerryDetail = async (id: number) => {
+    loading.value = true;
+    error.value = null;
+    try {
+      const response = await axios.get(`https://pokeapi.co/api/v2/berry/${id}`);
+      berryDetail.value = response.data;
+    } catch (err) {
+      error.value = "Failed to fetch berry details";
+    } finally {
+      loading.value = false;
     }
   };
 
@@ -88,15 +117,17 @@ export const useBerryStore = defineStore("berry", () => {
 
   watch(searchQuery, (newQuery) => {
     if (newQuery && allBerries.value.length === 0) {
-      fetchAllBerries(); // Fetch all data only if it hasn't been fetched yet
+      fetchAllBerries();
     }
   });
 
   return {
     berries,
+    berryDetail,
     loading,
     error,
     fetchBerries,
+    fetchBerryDetail,
     sortedBerries,
     filteredBerries,
     searchQuery,
