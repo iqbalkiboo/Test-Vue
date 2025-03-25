@@ -14,7 +14,37 @@ onMounted(() => {
 
 <template>
   <div class="box box--stacked">
-    <div v-if="berryStore.loading" class="text-center">Loading...</div>
+    <!-- Skeleton Loading -->
+    <div class="animate-pulse" v-if="berryStore.loading">
+      <div class="h-8 bg-gray-200 rounded w-3/4 mb-4"></div>
+      
+      <div class="space-y-3 mt-4">
+        <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+        <div class="h-4 bg-gray-200 rounded w-2/3"></div>
+        <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+        <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+        <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+      </div>
+
+      <div class="mt-6">
+        <div class="h-6 bg-gray-200 rounded w-1/4 mb-3"></div>
+        <div class="space-y-2">
+          <div class="h-4 bg-gray-200 rounded w-1/3"></div>
+          <div class="h-4 bg-gray-200 rounded w-1/3"></div>
+          <div class="h-4 bg-gray-200 rounded w-1/3"></div>
+        </div>
+      </div>
+
+      <div class="space-y-3 mt-6">
+        <div class="h-4 bg-gray-200 rounded w-2/3"></div>
+        <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+      </div>
+
+      <div class="mt-6">
+        <div class="h-4 bg-gray-200 rounded w-1/3"></div>
+      </div>
+    </div>
+    <!-- Skeleton Loading -->
     <div v-else-if="berryStore.error" class="text-red-500">{{ berryStore.error }}</div>
     <div v-else-if="berryStore.berryDetail" class="p-4 border rounded shadow-md">
       <h1 class="text-2xl font-bold">{{ berryStore.berryDetail.name }} (ID: {{ berryStore.berryDetail.id }})</h1>

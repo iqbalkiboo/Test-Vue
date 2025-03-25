@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import Lucide from "@/components/Base/Lucide";
 import { Menu, Popover } from "@/components/Base/Headless";
 import Pagination from "@/components/Base/Pagination";
@@ -16,6 +16,18 @@ import { useRouter } from 'vue-router';
 const berryStore = useBerryStore();
 const router = useRouter();
 
+const isLoading = ref(false);
+
+// Modify onMounted to handle loading state
+onMounted(async () => {
+  isLoading.value = true;
+  try {
+    await berryStore.fetchBerries();
+  } finally {
+    isLoading.value = false;
+  }
+});
+
 onMounted(() => {
   berryStore.fetchBerries();
 });
@@ -26,18 +38,41 @@ const getBerryIdFromUrl = (url: string) => {
   return parts[parts.length - 2]; // ID ada sebelum slash terakhir
 };
 
-// Navigasi ke halaman detail berdasarkan ID
-const goToDetail = (berryUrl: string) => {
-  const berryId = getBerryIdFromUrl(berryUrl);
-  router.push(`/${berryId}`);
-};
-
 </script>
 
-
-
 <template>
-  <div class="grid grid-cols-12 gap-y-10 gap-x-6">
+  <!-- Skeleton Loading -->
+  <div v-if="isLoading" class="animate-pulse">
+    <!-- Skeleton for the header -->
+    <div class="h-10 bg-slate-200 rounded mb-4"></div>
+    
+    <!-- Skeleton for the search bar -->
+    <div class="h-12 bg-slate-200 rounded mb-4"></div>
+    
+    <!-- Skeleton for table -->
+    <div class="border rounded-lg overflow-hidden">
+      <!-- Table header skeleton -->
+      <div class="h-12 bg-slate-200"></div>
+      
+      <!-- Table rows skeleton -->
+      <div v-for="n in 5" :key="n" class="flex">
+        <div class="w-16 h-12 bg-slate-100 border-b"></div>
+        <div class="flex-1 h-12 bg-slate-100 border-b mx-1"></div>
+        <div class="w-20 h-12 bg-slate-100 border-b"></div>
+      </div>
+    </div>
+    
+    <!-- Skeleton for pagination -->
+    <div class="flex justify-between items-center mt-4">
+      <div class="flex gap-2">
+        <div class="w-24 h-10 bg-slate-200 rounded"></div>
+        <div class="w-24 h-10 bg-slate-200 rounded"></div>
+      </div>
+      <div class="w-20 h-10 bg-slate-200 rounded"></div>
+    </div>
+  </div>
+  <!-- Skeleton Loading -->
+  <div v-else class="grid grid-cols-12 gap-y-10 gap-x-6">
     <div class="col-span-12">
       <Tab.Group>
         <div class="flex flex-col md:h-10 gap-y-3 md:items-center md:flex-row">
@@ -55,11 +90,14 @@ const goToDetail = (berryUrl: string) => {
                 class="w-24 text-slate-500 whitespace-nowrap rounded-[0.6rem] group-[.mode--light]:text-slate-200"
                 as="button"
               >
-                <Lucide
+              <router-link to="/add">
+                <!-- <Lucide
                   icon="Plus"
                   class="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3] text-slate-500"
-                />
-                Add Data
+                /> -->
+                
+                  Add Data
+                </router-link>
               </Tab.Button>
             </Tab>
           </Tab.List>
