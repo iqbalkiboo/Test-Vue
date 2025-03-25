@@ -7,6 +7,11 @@ interface Berry {
   url: string;
 }
 
+interface FlavorDetail {
+  name: string;
+  potency: number;
+}
+
 interface BerryDetail {
   name: string;
   id: number;
@@ -26,6 +31,7 @@ export const useBerryStore = defineStore("berry", () => {
   const berries = ref<Berry[]>([]);
   const allBerries = ref<Berry[]>([]);
   const berryDetail = ref<BerryDetail | null>(null);
+  const flavorDetail = ref<FlavorDetail | null>(null);
   const loading = ref<boolean>(false);
   const error = ref<string | null>(null);
   const count = ref<number>(0);
@@ -86,6 +92,19 @@ export const useBerryStore = defineStore("berry", () => {
     }
   };
 
+  const fetchFlavorDetail = async (url: string) => {
+    loading.value = true;
+    error.value = null;
+    try {
+      const response = await axios.get(url);
+      flavorDetail.value = response.data;
+    } catch (err) {
+      error.value = "Failed to fetch flavor details";
+    } finally {
+      loading.value = false;
+    }
+  };
+
   const sortedBerries = computed(() => {
     return [...berries.value].sort((a, b) => a.name.localeCompare(b.name));
   });
@@ -124,10 +143,12 @@ export const useBerryStore = defineStore("berry", () => {
   return {
     berries,
     berryDetail,
+    flavorDetail,
     loading,
     error,
     fetchBerries,
     fetchBerryDetail,
+    fetchFlavorDetail,
     sortedBerries,
     filteredBerries,
     searchQuery,

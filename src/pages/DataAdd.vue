@@ -3,6 +3,8 @@
 import { ref } from 'vue';
 import { useProductStore } from '@/stores/addStore';
 import { useRouter } from 'vue-router';
+import Preview from "@/components/Base/Preview";
+import Dropzone, { type DropzoneElement } from "@/components/Base/Dropzone";
 
 const productStore = useProductStore();
 const router = useRouter();
@@ -65,7 +67,80 @@ const handleSubmit = async () => {
 
       <div>
         <label class="block text-sm font-medium">Gambar (URL)</label>
-        <input v-model="product.image" type="text" class="w-full p-2 border rounded" required />
+        <!-- <input v-model="product.image" type="text" class="w-full p-2 border rounded" required /> -->
+        <!-- <Dropzone 
+                refKey="dropzoneSingleRef" 
+                v-model="product.image"
+                required
+                :options="{
+                  url: 'https://httpbin.org/post',
+                  thumbnailWidth: 150,
+                  maxFilesize: 0.5,
+                  maxFiles: 1,
+                  headers: { 'My-Awesome-Header': 'header value' },
+                }" 
+                class="dropzone"
+              >
+                <div class="text-lg font-medium">
+                    Drop files here or click to upload.
+                </div>
+                <div class="text-gray-600">
+                    This is just a demo dropzone. Selected files are
+                    <span class="font-medium">not</span> actually uploaded.
+                </div>
+            </Dropzone> -->
+            <div class="px-5 py-2 mt-4 flex flex-col gap-3.5">
+              <Preview.Panel>
+                <Dropzone
+                  refKey="dropzoneSingleRef"
+                  :options="{
+                    url: 'https://httpbin.org/post',
+                    thumbnailWidth: 150,
+                    maxFilesize: 0.5,
+                    maxFiles: 1,
+                    headers: {
+                      'My-Awesome-Header': 'header value',
+                    },
+                  }"
+                  class="dropzone"
+                >
+                  <div class="text-lg font-medium">
+                    Drop files here or click to upload.
+                  </div>
+                  <div class="text-gray-600">
+                    This is just a demo dropzone. Selected files are
+                    <span class="font-medium">not</span>
+                    actually uploaded.
+                  </div>
+                </Dropzone>
+              </Preview.Panel>
+              <Preview.Panel type="source">
+                <Preview.Highlight>
+                  {{`
+                    <Dropzone
+                      refKey="dropzoneSingleRef"
+                      :options="{
+                        url: 'https://httpbin.org/post',
+                        thumbnailWidth: 150,
+                        maxFilesize: 0.5,
+                        maxFiles: 1,
+                        headers: { 'My-Awesome-Header': 'header value' },
+                      }"
+                      class="dropzone"
+                    >
+                      <div class="text-lg font-medium">
+                        Drop files here or click to upload.
+                      </div>
+                      <div class="text-gray-600">
+                        This is just a demo dropzone. Selected files are
+                        <span class="font-medium">not</span> actually
+                        uploaded.
+                      </div>
+                    </Dropzone>
+                  `}}
+                </Preview.Highlight>
+            </Preview.Panel>
+          </div>
       </div>
       <div class="flex items-center">
         <button 

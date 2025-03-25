@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useBerryStore } from '@/stores/useBerryStore';
 
@@ -9,6 +9,15 @@ const berryId = Number(route.params.id);
 
 onMounted(() => {
   berryStore.fetchBerryDetail(berryId);
+});
+
+const handleFlavorClick = (url: string) => {
+  berryStore.fetchFlavorDetail(url);
+};
+
+// Jika user berpindah detail berry lain
+watch(() => route.params.id, (newId) => {
+  berryStore.fetchBerryDetail(Number(newId));
 });
 </script>
 
@@ -47,7 +56,7 @@ onMounted(() => {
     <!-- Skeleton Loading -->
     <div v-else-if="berryStore.error" class="text-red-500">{{ berryStore.error }}</div>
     <div v-else-if="berryStore.berryDetail" class="p-4 border rounded shadow-md">
-      <h1 class="text-2xl font-bold">{{ berryStore.berryDetail.name }} (ID: {{ berryStore.berryDetail.id }})</h1>
+      <h1 class="text-2xl font-bold">{{ berryStore.berryDetail.name.replace(/^\w/, (c) => c.toUpperCase()) }} (ID: {{ berryStore.berryDetail.id }})</h1>
 
       <div class="mt-4">
         <p><strong>Size:</strong> {{ berryStore.berryDetail.size }}</p>
@@ -60,11 +69,25 @@ onMounted(() => {
 
       <div class="mt-4">
         <h2 class="text-xl font-semibold">Flavors</h2>
-        <ul class="list-disc ml-4">
-          <li v-for="flavor in berryStore.berryDetail.flavors" :key="flavor.flavor.name">
-            {{ flavor.flavor.name }} (Potency: {{ flavor.potency }})
-          </li>
-        </ul>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div
+            v-for="flavor in berryStore.berryDetail.flavors"
+            :key="flavor.flavor.name"
+            @click="handleFlavorClick(flavor.flavor.url)"
+            class="p-4 border rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer bg-white"
+          >
+            <div class="flex flex-col">
+              <span class="text-lg font-medium text-gray-800">{{ flavor.flavor.name.replace(/^\w/, (c) => c.toUpperCase()) }}</span>
+              <span class="text-sm text-gray-600 mt-2">Potency: {{ flavor.potency }}</span>
+            </div>
+          </div>
+        </div>
+        <div v-if="berryStore.flavorDetail" class="mt-6 p-4 border rounded bg-gray-100">
+          <h2 class="text-lg font-bold">Flavor Detail:</h2>
+          <!-- <p>Name: {{ berryStore.flavorDetail.name.charAt(0).toUpperCase() + berryStore.flavorDetail.name.slice(1) }}</p> -->
+          <p>Name : {{berryStore.flavorDetail?.name?.replace(/^\w/, (c) => c.toUpperCase())}}</p>
+          <p>Contest type: {{ berryStore.flavorDetail?.contest_type?.name }}</p>
+        </div>
       </div>
 
       <div class="mt-4">

@@ -162,7 +162,7 @@ const getBerryIdFromUrl = (url: string) => {
                           :to="{ name: 'data-detail', params: { id: getBerryIdFromUrl(berry.url) }}" 
                           class="font-medium whitespace-nowrap text-blue-500 hover:underline"
                         >
-                          {{ berry.name }}
+                          {{ berry.name.replace(/^\w/, (c) => c.toUpperCase())  }}
                         </router-link>
                       </Table.Td>
                       <Table.Td
