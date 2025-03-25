@@ -17,6 +17,12 @@ export interface MenuState {
 export const useMenuStore = defineStore("menu", {
   state: (): MenuState => ({
     value: [
+      "DATA",
+      {
+        icon: "Database",
+        pageName: "data-list",
+        title: "Data List",
+      },
       "DASHBOARDS",
       {
         icon: "GaugeCircle",

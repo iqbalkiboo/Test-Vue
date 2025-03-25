@@ -10,6 +10,11 @@ const router = createRouter({
       children: [
         {
           path: "/",
+          name: "data-list",
+          component: () => import("../pages/DataList.vue"),
+        },
+        {
+          path: "/dashboard-overview-1",
           name: "dashboard-overview-1",
           component: () => import("../pages/DashboardOverview1.vue"),
         },
