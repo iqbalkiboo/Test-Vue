@@ -41,7 +41,11 @@ onMounted(() => {
                 class="w-24 text-slate-500 whitespace-nowrap rounded-[0.6rem] group-[.mode--light]:text-slate-200"
                 as="button"
               >
-                Daily
+                <Lucide
+                  icon="Plus"
+                  class="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3] text-slate-500"
+                />
+                Add Data
               </Tab.Button>
             </Tab>
           </Tab.List>
@@ -91,9 +95,7 @@ onMounted(() => {
                   >
                     <Table.Tr class="[&_td]:last:border-b-0">
                       <Table.Td class="py-4 border-dashed dark:bg-darkmode-600">
-                        <a href="" class="font-medium whitespace-nowrap">
-                          {{ index + 1 }}
-                        </a>
+                        {{ index + 1 }}
                       </Table.Td>
                       <Table.Td class="py-4 border-dashed dark:bg-darkmode-600">
                         <a href="" class="font-medium whitespace-nowrap">
