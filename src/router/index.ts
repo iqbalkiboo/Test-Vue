@@ -58,21 +58,6 @@ const router = createRouter({
         },
       ],
     },
-    {
-      path: "/landing-page",
-      name: "landing-page",
-      component: () => import("../pages/LandingPage.vue"),
-    },
-    {
-      path: "/login",
-      name: "login",
-      component: () => import("../pages/Login.vue"),
-    },
-    {
-      path: "/register",
-      name: "register",
-      component: () => import("../pages/Register.vue"),
-    },
   ],
 });
 
