@@ -92,7 +92,7 @@ const { t } = useI18n();
                 class="w-24 text-slate-500 whitespace-nowrap rounded-[0.6rem] group-[.mode--light]:text-slate-200"
                 as="button"
               >
-              <router-link to="/data-list/add">{{ t('table.addData') }}</router-link>
+              <router-link to="/table-list/add">{{ t('table.addData') }}</router-link>
               </Tab.Button>
             </Tab>
           </Tab.List>
