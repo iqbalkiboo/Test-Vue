@@ -19,6 +19,28 @@ const messages = {
         previous: 'Previous',
         next: 'Next'
       }
+    },
+    detail: {
+      title: 'Berry Detail',
+      id: 'ID',
+      attributes: {
+        size: 'Size',
+        firmness: 'Firmness',
+        growthTime: 'Growth Time',
+        maxHarvest: 'Max Harvest',
+        smoothness: 'Smoothness',
+        soilDryness: 'Soil Dryness',
+        naturalGiftPower: 'Natural Gift Power',
+        naturalGiftType: 'Natural Gift Type',
+        item: 'Item'
+      },
+      flavors: {
+        title: 'Flavors',
+        potency: 'Potency',
+        detail: 'Flavor Detail',
+        name: 'Name',
+        contestType: 'Contest type'
+      }
     }
   },
   id: {
@@ -38,6 +60,28 @@ const messages = {
       pagination: {
         previous: 'Sebelumnya',
         next: 'Selanjutnya'
+      }
+    },
+    detail: {
+      title: 'Detail Berry',
+      id: 'ID',
+      attributes: {
+        size: 'Ukuran',
+        firmness: 'Kekerasan',
+        growthTime: 'Waktu Tumbuh',
+        maxHarvest: 'Panen Maksimal',
+        smoothness: 'Kehalusan',
+        soilDryness: 'Kekeringan Tanah',
+        naturalGiftPower: 'Kekuatan Gift Alami',
+        naturalGiftType: 'Tipe Gift Alami',
+        item: 'Item'
+      },
+      flavors: {
+        title: 'Rasa',
+        potency: 'Potensi',
+        detail: 'Detail Rasa',
+        name: 'Nama',
+        contestType: 'Tipe Kontes'
       }
     }
   }
