@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import Lucide from "@/components/Base/Lucide";
 import { Menu, Popover } from "@/components/Base/Headless";
 import Pagination from "@/components/Base/Pagination";
@@ -15,6 +16,7 @@ import { useRouter } from 'vue-router';
 
 const berryStore = useBerryStore();
 const router = useRouter();
+const { t } = useI18n();
 
 const isLoading = ref(false);
 
@@ -77,7 +79,7 @@ const getBerryIdFromUrl = (url: string) => {
       <Tab.Group>
         <div class="flex flex-col md:h-10 gap-y-3 md:items-center md:flex-row">
           <div class="text-base font-medium group-[.mode--light]:text-white">
-            Data List
+            {{ t('table.title') }}
           </div>
           <Tab.List
             variant="boxed-tabs"
@@ -90,14 +92,7 @@ const getBerryIdFromUrl = (url: string) => {
                 class="w-24 text-slate-500 whitespace-nowrap rounded-[0.6rem] group-[.mode--light]:text-slate-200"
                 as="button"
               >
-              <router-link to="/add">
-                <!-- <Lucide
-                  icon="Plus"
-                  class="absolute inset-y-0 left-0 z-10 w-4 h-4 my-auto ml-3 stroke-[1.3] text-slate-500"
-                /> -->
-                
-                  Add Data
-                </router-link>
+              <router-link to="/data-list/add">{{ t('table.addData') }}</router-link>
               </Tab.Button>
             </Tab>
           </Tab.List>
@@ -114,7 +109,7 @@ const getBerryIdFromUrl = (url: string) => {
                   <FormInput
                     v-model="berryStore.searchQuery"
                     type="text"
-                    placeholder="Search data..."
+                    :placeholder="t('table.search')"
                     class="pl-9 sm:w-64 rounded-[0.5rem]"
                   />
                 </div>
@@ -182,11 +177,11 @@ const getBerryIdFromUrl = (url: string) => {
                                   icon="CheckSquare"
                                   class="w-4 h-4 mr-2"
                                 />
-                                Edit
+                                {{ t('table.actions.edit') }}
                               </Menu.Item>
                               <Menu.Item class="text-danger">
                                 <Lucide icon="Trash2" class="w-4 h-4 mr-2" />
-                                Delete
+                                {{ t('table.actions.delete') }}
                               </Menu.Item>
                             </Menu.Items>
                           </Menu>
@@ -206,7 +201,7 @@ const getBerryIdFromUrl = (url: string) => {
                   :disabled="!berryStore.hasPrev"
                   class="px-4 py-2 mr-2 bg-gray-300 rounded disabled:opacity-50"
                 >
-                  Previous
+                  {{ t('table.pagination.previous') }}
                 </button>
                 
                 <button 
@@ -214,7 +209,7 @@ const getBerryIdFromUrl = (url: string) => {
                   :disabled="!berryStore.hasNext"
                   class="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
                 >
-                  Next
+                  {{ t('table.pagination.next') }}
                 </button>
               </div>
               <FormSelect v-model="berryStore.limit" @change="berryStore.setLimit(berryStore.limit)" class="sm:w-20 rounded-[0.5rem] end-0">

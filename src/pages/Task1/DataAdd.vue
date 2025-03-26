@@ -46,23 +46,13 @@ const handleSubmit = async () => {
 
     <form @submit.prevent="handleSubmit" class="space-y-4">
       <div>
-        <label class="block text-sm font-medium">Nama Produk</label>
+        <label class="block text-sm font-medium">Nama</label>
         <input v-model="product.title" type="text" class="w-full p-2 border rounded" required />
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium">Harga</label>
-        <input v-model="product.price" type="number" class="w-full p-2 border rounded" required />
       </div>
 
       <div>
         <label class="block text-sm font-medium">Deskripsi</label>
         <textarea v-model="product.description" class="w-full p-2 border rounded" required></textarea>
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium">Kategori</label>
-        <input v-model="product.category" type="text" class="w-full p-2 border rounded" required />
       </div>
 
       <div>
