@@ -154,7 +154,7 @@ const { t } = useI18n();
                       </Table.Td> -->
                       <Table.Td class="py-4 border-dashed dark:bg-darkmode-600">
                         <router-link 
-                          :to="{ name: 'data-detail', params: { id: getBerryIdFromUrl(berry.url) }}" 
+                          :to="{ name: 'table-detail', params: { id: getBerryIdFromUrl(berry.url) }}" 
                           class="font-medium whitespace-nowrap text-blue-500 hover:underline"
                         >
                           {{ berry.name.replace(/^\w/, (c) => c.toUpperCase())  }}

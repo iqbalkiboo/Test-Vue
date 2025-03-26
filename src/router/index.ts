@@ -4,8 +4,8 @@ import DataList from "../pages/Task1/DataList.vue";
 import DataDetail from "../pages/Task1/DataDetail.vue";
 import DataAdd from "../pages/Task1/DataAdd.vue";
 import TableList from "../pages/Task2/TableList.vue";
-import TableDetail from "../pages/Task2/TableList.vue";
-import TableAdd from "../pages/Task2/TableList.vue";
+import TableDetail from "../pages/Task2/TableDetail.vue";
+import TableAdd from "../pages/Task2/TableAdd.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
