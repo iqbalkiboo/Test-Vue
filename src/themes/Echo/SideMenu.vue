@@ -20,7 +20,6 @@ import {
 import { watch, reactive, ref, computed, onMounted, provide } from "vue";
 import users from "@/fakers/users";
 import SimpleBar from "simplebar";
-import QuickSearch from "@/components/QuickSearch";
 import SwitchAccount from "@/components/SwitchAccount";
 import NotificationsPanel from "@/components/NotificationsPanel";
 import ActivitiesPanel from "@/components/ActivitiesPanel";
@@ -28,10 +27,6 @@ import ActivitiesPanel from "@/components/ActivitiesPanel";
 const compactMenu = useCompactMenuStore();
 const setCompactMenu = (val: boolean) => {
   compactMenu.setCompactMenu(val);
-};
-const quickSearch = ref(false);
-const setQuickSearch = (value: boolean) => {
-  quickSearch.value = value;
 };
 
 const switchAccount = ref(false);
@@ -88,6 +83,40 @@ const requestFullscreen = () => {
     el.requestFullscreen();
   }
 };
+
+// Add this computed property in the script setup section
+const breadcrumbs = computed(() => {
+  const currentMenu = formattedMenu.find((item): item is FormattedMenu => 
+    typeof item !== 'string' && item.active === true
+  );
+  
+  if (currentMenu) {
+    const items = [];
+    items.push({
+      title: currentMenu.title,
+      to: currentMenu.pathname || '#',
+      active: !route.params.id
+    });
+
+    if (route.params.id) {
+      items.push({
+        title: 'Detail',
+        to: route.path,
+        active: true
+      });
+    }
+
+    return items;
+  }
+
+  // Fallback to path-based breadcrumbs
+  const paths = route.path.split('/').filter(Boolean);
+  return paths.map((path, index) => ({
+    title: path.charAt(0).toUpperCase() + path.slice(1),
+    to: '/' + paths.slice(0, index + 1).join('/'),
+    active: index === paths.length - 1
+  }));
+});
 
 watch(menu, () => {
   setFormattedMenu(menu.value);
@@ -374,63 +403,16 @@ window.onscroll = () => {
           <div
             class="container flex items-center w-full h-full transition-[padding,background-color,border-color] ease-in-out duration-300 box bg-transparent border-transparent shadow-none group-[.top-bar--active]:box group-[.top-bar--active]:px-5 group-[.top-bar--active]:bg-transparent group-[.top-bar--active]:border-transparent group-[.top-bar--active]:bg-gradient-to-r group-[.top-bar--active]:from-theme-1 group-[.top-bar--active]:to-theme-2"
           >
-            <div class="flex items-center gap-1 xl:hidden">
-              <a
-                href=""
-                @click="
-                  (event) => {
-                    event.preventDefault();
-                    activeMobileMenu = true;
-                  }
-                "
-                class="p-2 text-white rounded-full hover:bg-white/5"
-              >
-                <Lucide icon="AlignJustify" class="w-[18px] h-[18px]" />
-              </a>
-              <a
-                href=""
-                class="p-2 text-white rounded-full hover:bg-white/5"
-                @click="
-                  (event) => {
-                    event.preventDefault();
-                    quickSearch = true;
-                  }
-                "
-              >
-                <Lucide icon="Search" class="w-[18px] h-[18px]" />
-              </a>
-            </div>
             <!-- BEGIN: Breadcrumb -->
             <Breadcrumb light class="flex-1 hidden xl:block">
-              <Breadcrumb.Link to="/">App</Breadcrumb.Link>
-              <Breadcrumb.Link to="/">Dashboards</Breadcrumb.Link>
-              <Breadcrumb.Link to="/" :active="true">
-                Analytics
-              </Breadcrumb.Link>
+              <Breadcrumb.Link to="/">Home </Breadcrumb.Link>
+              <template v-for="(crumb, index) in breadcrumbs" :key="index">
+                <Breadcrumb.Link :to="crumb.to" :active="crumb.active">
+                  -{{ crumb.title }}
+                </Breadcrumb.Link>
+              </template>
             </Breadcrumb>
             <!-- END: Breadcrumb -->
-            <!-- BEGIN: Search -->
-            <div
-              class="relative justify-center flex-1 hidden xl:flex"
-              @click="
-                () => {
-                  quickSearch = true;
-                }
-              "
-            >
-              <div
-                class="bg-white/[0.12] border-transparent border w-[350px] flex items-center py-2 px-3.5 rounded-[0.5rem] text-white/60 cursor-pointer hover:bg-white/[0.15] transition-colors duration-300 hover:duration-100"
-              >
-                <Lucide icon="Search" class="w-[18px] h-[18px]" />
-                <div class="ml-2.5 mr-auto">Quick search...</div>
-                <div>⌘K</div>
-              </div>
-            </div>
-            <QuickSearch
-              :quickSearch="quickSearch"
-              :setQuickSearch="setQuickSearch"
-            />
-            <!-- END: Search -->
             <!-- BEGIN: Notification & User Menu -->
             <div class="flex items-center flex-1">
               <div class="flex items-center gap-1 ml-auto">

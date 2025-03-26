@@ -26,7 +26,7 @@ const findActiveMenu = (subMenu: Menu[], route: Route): boolean => {
       ((route.forceActiveMenu !== undefined &&
         item.pageName === route.forceActiveMenu) ||
         (route.forceActiveMenu === undefined &&
-          item.pageName === route.name)) &&
+        item.pageName === route.name || item.pageName === route.meta?.activeMenu)) &&
       !item.ignore
     ) {
       match = true;
@@ -81,9 +81,20 @@ const linkTo = (menu: FormattedMenu, router: Router) => {
     menu.activeDropdown = !menu.activeDropdown;
   } else {
     if (menu.pageName !== undefined) {
-      router.push({
-        name: menu.pageName,
-      });
+      // router.push({
+      //   name: menu.pageName,
+      // });
+      const currentRoute = router.currentRoute.value;
+      if (currentRoute.params && Object.keys(currentRoute.params).length > 0) {
+        router.push({
+          name: menu.pageName,
+          params: currentRoute.params,
+        });
+      } else {
+        router.push({
+          name: menu.pageName,
+        });
+      }
     }
   }
 };
