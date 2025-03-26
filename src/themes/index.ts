@@ -1,3 +1,3 @@
-import Layout from "./Layout.vue";
+import Layout from "./Echo/index";
 
 export default Layout;

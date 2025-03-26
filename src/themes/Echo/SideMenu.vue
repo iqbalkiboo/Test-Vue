@@ -23,6 +23,7 @@ import SimpleBar from "simplebar";
 import SwitchAccount from "@/components/SwitchAccount";
 import NotificationsPanel from "@/components/NotificationsPanel";
 import ActivitiesPanel from "@/components/ActivitiesPanel";
+import { useI18n } from "vue-i18n";
 
 const compactMenu = useCompactMenuStore();
 const setCompactMenu = (val: boolean) => {
@@ -129,6 +130,9 @@ watch(
   }
 );
 
+const { locale, t } = useI18n();
+locale.value = 'id'; // or 'en'
+
 onMounted(() => {
   if (scrollableRef.value) {
     new SimpleBar(scrollableRef.value);
@@ -150,6 +154,10 @@ window.onscroll = () => {
   } else {
     topBarActive.value = false;
   }
+};
+
+const switchLanguage = (lang: string) => {
+  locale.value = lang;
 };
 </script>
 
@@ -416,18 +424,23 @@ window.onscroll = () => {
             <!-- BEGIN: Notification & User Menu -->
             <div class="flex items-center flex-1">
               <div class="flex items-center gap-1 ml-auto">
-                <a
-                  href=""
-                  class="p-2 text-white rounded-full hover:bg-white/5"
-                  @click="
-                    (e) => {
-                      e.preventDefault();
-                      activitiesPanel = true;
-                    }
-                  "
-                >
-                  <Lucide icon="LayoutGrid" class="w-[18px] h-[18px]" />
-                </a>
+                <!-- Add language switcher buttons -->
+                  <div class="flex gap-2 md:ml-4">
+                    <button 
+                      @click="switchLanguage('en')"
+                      class="px-3 py-1 rounded-md text-sm"
+                      :class="locale === 'en' ? 'bg-blue-500 text-white' : 'bg-gray-200'"
+                    >
+                      EN
+                    </button>
+                    <button 
+                      @click="switchLanguage('id')"
+                      class="px-3 py-1 rounded-md text-sm"
+                      :class="locale === 'id' ? 'bg-blue-500 text-white' : 'bg-gray-200'"
+                    >
+                      ID
+                    </button>
+                  </div>
                 <!-- <a
                     href=""
                     class="p-2 text-white rounded-full hover:bg-white/5"
